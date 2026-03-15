@@ -1,0 +1,151 @@
+import React, { useState } from 'react';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAppContext } from '../context/AppContext';
+import { fetchFoodNutrition } from '../services/openFoodFacts';
+import { colors, spacing } from '../theme';
+
+export const AddFoodScreen = () => {
+  const { state, addFoodLog } = useAppContext();
+  const [foodName, setFoodName] = useState('');
+  const [grams, setGrams] = useState('100');
+  const [loading, setLoading] = useState(false);
+
+  const handleAdd = async () => {
+    if (!state.profile) {
+      Alert.alert('Profile required', 'Please complete your profile before logging food.');
+      return;
+    }
+
+    if (!foodName.trim()) {
+      Alert.alert('Food required', 'Enter a food name to search OpenFoodFacts.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const nutrition = await fetchFoodNutrition(foodName, Number(grams));
+      addFoodLog({
+        userId: state.profile.id,
+        foodName: nutrition.foodName,
+        grams: Number(grams),
+        calories: nutrition.calories,
+        protein: nutrition.protein,
+        carbs: nutrition.carbs,
+        fat: nutrition.fat,
+        loggedAt: new Date().toISOString(),
+      });
+      setFoodName('');
+      setGrams('100');
+    } catch {
+      Alert.alert('Nutrition lookup failed', 'Try a more specific food name or reconnect to the internet.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.title}>Add Food</Text>
+        <View style={styles.card}>
+          <Text style={styles.label}>Food name</Text>
+          <TextInput style={styles.input} value={foodName} onChangeText={setFoodName} placeholder="Chicken breast" />
+          <Text style={styles.label}>Grams</Text>
+          <TextInput style={styles.input} value={grams} onChangeText={setGrams} keyboardType="numeric" placeholder="100" />
+          <Pressable style={styles.button} onPress={handleAdd} disabled={loading}>
+            <Text style={styles.buttonText}>{loading ? 'Calculating...' : 'Fetch Nutrition & Save'}</Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Recent entries</Text>
+          {state.foodLogs.slice(0, 5).map((log) => (
+            <View key={log.id} style={styles.row}>
+              <View>
+                <Text style={styles.foodName}>{log.foodName}</Text>
+                <Text style={styles.meta}>{log.grams}g • {log.protein}P / {log.carbs}C / {log.fat}F</Text>
+              </View>
+              <Text style={styles.calories}>{log.calories} kcal</Text>
+            </View>
+          ))}
+          {state.foodLogs.length === 0 && <Text style={styles.emptyText}>No food logs yet.</Text>}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  content: {
+    padding: spacing.lg,
+    gap: spacing.md,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '800',
+    color: colors.text,
+  },
+  card: {
+    backgroundColor: colors.card,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    gap: spacing.sm,
+  },
+  label: {
+    color: colors.text,
+    fontWeight: '600',
+  },
+  input: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.md,
+    backgroundColor: '#FBFCFD',
+  },
+  button: {
+    marginTop: spacing.sm,
+    backgroundColor: colors.primary,
+    borderRadius: 14,
+    alignItems: 'center',
+    padding: spacing.md,
+  },
+  buttonText: {
+    color: '#FFF',
+    fontWeight: '700',
+  },
+  sectionTitle: {
+    color: colors.text,
+    fontWeight: '700',
+    fontSize: 18,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  foodName: {
+    color: colors.text,
+    fontWeight: '600',
+  },
+  meta: {
+    color: colors.muted,
+    marginTop: 2,
+  },
+  calories: {
+    color: colors.primaryDark,
+    fontWeight: '700',
+  },
+  emptyText: {
+    color: colors.muted,
+  },
+});
