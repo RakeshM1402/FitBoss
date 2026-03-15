@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import * as Linking from 'expo-linking';
-import * as WebBrowser from 'expo-browser';
+import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri } from 'expo-auth-session';
 import { AppState, FitnessScoreEntry, FoodLog, LeaderboardEntry, PendingSyncItem, UserProfile, WorkoutLog } from '../types';
 import { loadAppState, saveAppState } from '../services/storage';
