@@ -11,6 +11,23 @@ import { sameCalendarDay, getTodayKey, getYesterdayKey } from '../utils/date';
 import { generateId } from '../utils/id';
 
 WebBrowser.maybeCompleteAuthSession();
+const authRedirectPath = 'auth/callback';
+
+const getRedirectUri = () =>
+  makeRedirectUri({
+    scheme: 'fitboss',
+    path: authRedirectPath,
+  });
+
+const extractSessionTokens = (url: string) => {
+  const normalized = url.replace('#', '?');
+  const parsed = Linking.parse(normalized);
+
+  return {
+    accessToken: parsed.queryParams?.access_token as string | undefined,
+    refreshToken: parsed.queryParams?.refresh_token as string | undefined,
+  };
+};
 
 const initialState: AppState = {
   isOnline: true,
@@ -71,8 +88,7 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
   }, []);
 
   const loginWithGoogle = useCallback(async () => {
-    // In Expo Go development, let Expo generate the correct exp:// redirect URI.
-    const redirectTo = makeRedirectUri();
+    const redirectTo = getRedirectUri();
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -95,9 +111,7 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
       return;
     }
 
-    const parsed = Linking.parse(result.url);
-    const accessToken = parsed.queryParams?.access_token as string | undefined;
-    const refreshToken = parsed.queryParams?.refresh_token as string | undefined;
+    const { accessToken, refreshToken } = extractSessionTokens(result.url);
 
     if (!accessToken || !refreshToken) {
       return;
