@@ -20,6 +20,16 @@
       "package": "com.fitboss.app"
     },
     "scheme": "fitboss",
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "1.9.25"
+          }
+        }
+      ]
+    ],
     "extra": {
       "eas": {
         "projectId": "9f636513-3c3b-4746-802b-cb47ee863c67"
