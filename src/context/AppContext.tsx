@@ -26,6 +26,7 @@ const initialState: AppState = {
 interface AppContextValue {
   state: AppState;
   loginWithGoogle: () => Promise<void>;
+  loginAsGuest: () => void;
   logout: () => void;
   saveProfile: (profile: Omit<UserProfile, 'dailyCalorieGoal' | 'bodyFatEstimate' | 'streakCount'>) => void;
   addFoodLog: (log: Omit<FoodLog, 'id' | 'synced'>) => void;
@@ -70,7 +71,8 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
   }, []);
 
   const loginWithGoogle = useCallback(async () => {
-    const redirectTo = makeRedirectUri({ scheme: 'fitboss' });
+    // In Expo Go development, let Expo generate the correct exp:// redirect URI.
+    const redirectTo = makeRedirectUri();
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -120,6 +122,15 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
       isAuthenticated: false,
       sessionEmail: undefined,
       sessionUserId: undefined,
+    }));
+  }, []);
+
+  const loginAsGuest = useCallback(() => {
+    setState((current) => ({
+      ...current,
+      isAuthenticated: true,
+      sessionEmail: 'guest@fitboss.app',
+      sessionUserId: current.sessionUserId ?? generateId(),
     }));
   }, []);
 
@@ -227,6 +238,7 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
     () => ({
       state,
       loginWithGoogle,
+      loginAsGuest,
       logout,
       saveProfile: saveProfileHandler,
       addFoodLog,
@@ -236,7 +248,7 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
       setLeaderboards,
       hydrateDailyScore,
     }),
-    [addFoodLog, addScoreEntry, addWorkout, hydrateDailyScore, loginWithGoogle, logout, replacePendingSync, saveProfileHandler, setLeaderboards, state],
+    [addFoodLog, addScoreEntry, addWorkout, hydrateDailyScore, loginAsGuest, loginWithGoogle, logout, replacePendingSync, saveProfileHandler, setLeaderboards, state],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

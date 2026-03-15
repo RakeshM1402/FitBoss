@@ -5,7 +5,7 @@ import { useAppContext } from '../context/AppContext';
 import { colors, spacing } from '../theme';
 
 export const LoginScreen = () => {
-  const { loginWithGoogle } = useAppContext();
+  const { loginWithGoogle, loginAsGuest } = useAppContext();
 
   const handleLogin = async () => {
     try {
@@ -30,6 +30,9 @@ export const LoginScreen = () => {
         <Text style={styles.cardText}>Continue with Google to create your profile and sync across devices.</Text>
         <Pressable style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Continue with Google</Text>
+        </Pressable>
+        <Pressable style={styles.secondaryButton} onPress={loginAsGuest}>
+          <Text style={styles.secondaryButtonText}>Continue in Demo Mode</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -90,6 +93,17 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFF',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  secondaryButton: {
+    backgroundColor: colors.surface,
+    borderRadius: 14,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: colors.primaryDark,
     fontWeight: '700',
     fontSize: 16,
   },

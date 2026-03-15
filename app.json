@@ -19,6 +19,11 @@
     "android": {
       "package": "com.fitboss.app"
     },
-    "scheme": "fitboss"
+    "scheme": "fitboss",
+    "extra": {
+      "eas": {
+        "projectId": "9f636513-3c3b-4746-802b-cb47ee863c67"
+      }
+    }
   }
 }
