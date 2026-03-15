@@ -47,7 +47,7 @@ export const UserProfileScreen = () => {
     }
 
     saveProfile({
-      id: current?.id ?? generateId(),
+      id: current?.id ?? state.sessionUserId ?? generateId(),
       email: state.sessionEmail ?? 'local@fitboss.app',
       username,
       age: parsedAge,

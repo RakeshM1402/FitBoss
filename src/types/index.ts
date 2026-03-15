@@ -63,6 +63,7 @@ export interface PendingSyncItem {
 
 export interface AppState {
   sessionEmail?: string;
+  sessionUserId?: string;
   isOnline: boolean;
   isAuthenticated: boolean;
   profile?: UserProfile;

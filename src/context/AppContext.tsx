@@ -110,6 +110,7 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
       ...current,
       isAuthenticated: true,
       sessionEmail: sessionData.session?.user.email,
+      sessionUserId: sessionData.session?.user.id,
     }));
   }, []);
 
@@ -118,6 +119,7 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
       ...current,
       isAuthenticated: false,
       sessionEmail: undefined,
+      sessionUserId: undefined,
     }));
   }, []);
 
