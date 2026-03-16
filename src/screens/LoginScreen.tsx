@@ -1,19 +1,11 @@
 import React from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppContext } from '../context/AppContext';
 import { colors, spacing } from '../theme';
 
 export const LoginScreen = () => {
-  const { loginWithGoogle, loginAsGuest } = useAppContext();
-
-  const handleLogin = async () => {
-    try {
-      await loginWithGoogle();
-    } catch {
-      Alert.alert('Login failed', 'Google sign-in could not be completed. Check your Supabase Google provider settings.');
-    }
-  };
+  const { loginAsGuest } = useAppContext();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -26,13 +18,12 @@ export const LoginScreen = () => {
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Sign in</Text>
-        <Text style={styles.cardText}>Continue with Google to create your profile and sync across devices.</Text>
-        <Pressable style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Continue with Google</Text>
-        </Pressable>
-        <Pressable style={styles.secondaryButton} onPress={loginAsGuest}>
-          <Text style={styles.secondaryButtonText}>Continue in Demo Mode</Text>
+        <Text style={styles.cardTitle}>Start now</Text>
+        <Text style={styles.cardText}>
+          Demo Mode is enabled for APK builds right now so the app stays stable while authentication is being finalized.
+        </Text>
+        <Pressable style={styles.button} onPress={loginAsGuest}>
+          <Text style={styles.buttonText}>Continue in Demo Mode</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -93,17 +84,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFF',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  secondaryButton: {
-    backgroundColor: colors.surface,
-    borderRadius: 14,
-    paddingVertical: spacing.md,
-    alignItems: 'center',
-  },
-  secondaryButtonText: {
-    color: colors.primaryDark,
     fontWeight: '700',
     fontSize: 16,
   },
