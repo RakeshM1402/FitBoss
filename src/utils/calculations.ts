@@ -9,6 +9,14 @@ const activityMultipliers: Record<ActivityLevel, number> = {
   athlete: 1.9,
 };
 
+const goalAdjustments = {
+  lose_weight: -400,
+  maintain: 0,
+  gain_muscle: 250,
+  improve_endurance: 150,
+  general_health: 0,
+} as const;
+
 export const calculateBmr = (profile: Pick<UserProfile, 'age' | 'weightKg' | 'heightCm' | 'gender'>) => {
   const base = 10 * profile.weightKg + 6.25 * profile.heightCm - 5 * profile.age;
 
@@ -22,8 +30,14 @@ export const calculateBmr = (profile: Pick<UserProfile, 'age' | 'weightKg' | 'he
 };
 
 export const calculateDailyCalories = (
-  profile: Pick<UserProfile, 'age' | 'weightKg' | 'heightCm' | 'gender' | 'activityLevel'>,
-) => Math.round(calculateBmr(profile) * activityMultipliers[profile.activityLevel]);
+  profile: Pick<UserProfile, 'age' | 'weightKg' | 'heightCm' | 'gender' | 'activityLevel'> & {
+    onboarding?: UserProfile['onboarding'];
+  },
+) => {
+  const baseline = calculateBmr(profile) * activityMultipliers[profile.activityLevel];
+  const adjustment = profile.onboarding ? goalAdjustments[profile.onboarding.primaryGoal] : 0;
+  return Math.round(Math.max(1200, baseline + adjustment));
+};
 
 export const estimateBodyFat = (
   profile: Pick<UserProfile, 'gender' | 'age' | 'weightKg' | 'heightCm'>,

@@ -65,9 +65,15 @@ export const WorkoutModeScreen = () => {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Workout Mode</Text>
         <View style={styles.timerCard}>
-          <Text style={styles.timerLabel}>Workout timer</Text>
+          <Text style={styles.timerLabel}>Session timer</Text>
           <Text style={styles.timerValue}>{minutes}:{remainder}</Text>
-          <TextInput style={styles.input} value={workoutType} onChangeText={setWorkoutType} />
+          <TextInput
+            style={styles.input}
+            value={workoutType}
+            onChangeText={setWorkoutType}
+            placeholder="Workout type"
+            placeholderTextColor={colors.muted}
+          />
           <View style={styles.actions}>
             <Pressable style={styles.primaryButton} onPress={() => setRunning((current) => !current)}>
               <Text style={styles.primaryButtonText}>{running ? 'Pause' : 'Start'}</Text>
@@ -80,7 +86,7 @@ export const WorkoutModeScreen = () => {
 
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>Workout music</Text>
-          <Text style={styles.sectionText}>Open a playlist while training and let the timer keep tracking in the app.</Text>
+          <Text style={styles.sectionText}>Jump into a playlist without breaking the pace of your session.</Text>
           <Pressable style={styles.linkButton} onPress={() => openPlaylist(spotifyPlaylist)}>
             <Text style={styles.linkButtonText}>Open Spotify Playlist</Text>
           </Pressable>
@@ -120,27 +126,31 @@ const styles = StyleSheet.create({
   },
   timerCard: {
     backgroundColor: colors.card,
-    borderRadius: 24,
+    borderRadius: 28,
     borderColor: colors.border,
     borderWidth: 1,
     padding: spacing.xl,
     gap: spacing.md,
   },
   timerLabel: {
-    color: colors.muted,
-    fontSize: 14,
+    color: colors.primarySoft,
+    fontSize: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    fontWeight: '700',
   },
   timerValue: {
     color: colors.text,
     fontWeight: '800',
-    fontSize: 44,
+    fontSize: 46,
   },
   input: {
-    borderRadius: 14,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderStrong,
     padding: spacing.md,
-    backgroundColor: '#FBFCFD',
+    backgroundColor: colors.surfaceAlt,
+    color: colors.text,
   },
   actions: {
     flexDirection: 'row',
@@ -149,28 +159,30 @@ const styles = StyleSheet.create({
   primaryButton: {
     flex: 1,
     backgroundColor: colors.primary,
-    borderRadius: 14,
+    borderRadius: 18,
     padding: spacing.md,
     alignItems: 'center',
   },
   secondaryButton: {
     flex: 1,
-    backgroundColor: colors.surface,
-    borderRadius: 14,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: 18,
     padding: spacing.md,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
   },
   primaryButtonText: {
     color: '#FFF',
-    fontWeight: '700',
+    fontWeight: '800',
   },
   secondaryButtonText: {
-    color: colors.primaryDark,
-    fontWeight: '700',
+    color: colors.primarySoft,
+    fontWeight: '800',
   },
   card: {
     backgroundColor: colors.card,
-    borderRadius: 20,
+    borderRadius: 22,
     borderColor: colors.border,
     borderWidth: 1,
     padding: spacing.lg,
@@ -178,21 +190,23 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     color: colors.text,
-    fontWeight: '700',
+    fontWeight: '800',
     fontSize: 18,
   },
   sectionText: {
-    color: colors.muted,
+    color: colors.textSoft,
     lineHeight: 20,
   },
   linkButton: {
-    backgroundColor: colors.surface,
-    borderRadius: 14,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: 16,
     padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   linkButtonText: {
-    color: colors.primaryDark,
-    fontWeight: '700',
+    color: colors.primarySoft,
+    fontWeight: '800',
   },
   row: {
     flexDirection: 'row',
@@ -205,8 +219,8 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   rowValue: {
-    color: colors.primaryDark,
-    fontWeight: '700',
+    color: colors.primarySoft,
+    fontWeight: '800',
   },
   emptyText: {
     color: colors.muted,

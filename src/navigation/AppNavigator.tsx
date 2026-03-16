@@ -13,6 +13,7 @@ import { DailyCaloriesScreen } from '../screens/DailyCaloriesScreen';
 import { WorkoutModeScreen } from '../screens/WorkoutModeScreen';
 import { LeaderboardScreen } from '../screens/LeaderboardScreen';
 import { UserProfileScreen } from '../screens/UserProfileScreen';
+import { OnboardingSurveyScreen } from '../screens/OnboardingSurveyScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -33,9 +34,19 @@ const MainTabs = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
       headerShown: false,
-      tabBarActiveTintColor: colors.primary,
+      tabBarActiveTintColor: colors.primarySoft,
       tabBarInactiveTintColor: colors.muted,
-      tabBarStyle: { height: 64, paddingBottom: 8, paddingTop: 6 },
+      tabBarStyle: {
+        height: 72,
+        paddingBottom: 10,
+        paddingTop: 8,
+        backgroundColor: colors.surfaceAlt,
+        borderTopColor: colors.border,
+      },
+      tabBarLabelStyle: {
+        fontSize: 11,
+        fontWeight: '700',
+      },
       tabBarIcon: ({ color, size }) => {
         const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
           Dashboard: 'home-outline',
@@ -73,7 +84,11 @@ export const AppNavigator = () => {
     <NavigationContainer theme={appTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {state.isAuthenticated ? (
-          <Stack.Screen name="MainTabs" component={MainTabs} />
+          state.profile?.onboarding ? (
+            <Stack.Screen name="MainTabs" component={MainTabs} />
+          ) : (
+            <Stack.Screen name="Onboarding" component={OnboardingSurveyScreen} />
+          )
         ) : (
           <Stack.Screen name="Login" component={LoginScreen} />
         )}

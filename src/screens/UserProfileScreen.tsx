@@ -56,6 +56,15 @@ export const UserProfileScreen = () => {
       gender,
       activityLevel,
       lastLoginDate: current?.lastLoginDate,
+      onboarding: current?.onboarding ?? {
+        primaryGoal: 'general_health',
+        experienceLevel: 'beginner',
+        workoutsPerWeek: 3,
+        dietStyle: 'balanced',
+        trainingLocation: 'Gym',
+        discoverySource: 'search',
+        motivation: 'I want to build sustainable fitness habits.',
+      },
     });
   };
 
@@ -63,15 +72,41 @@ export const UserProfileScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Your Profile</Text>
+        <View style={styles.previewCard}>
+          <View style={styles.previewStat}>
+            <Text style={styles.previewLabel}>BMR</Text>
+            <Text style={styles.previewValue}>{preview.bmr}</Text>
+          </View>
+          <View style={styles.previewStat}>
+            <Text style={styles.previewLabel}>Daily goal</Text>
+            <Text style={styles.previewValue}>{preview.calories}</Text>
+          </View>
+          <View style={styles.previewStat}>
+            <Text style={styles.previewLabel}>Body fat</Text>
+            <Text style={styles.previewValue}>{preview.bodyFat}%</Text>
+          </View>
+        </View>
+
+        {current?.onboarding ? (
+          <View style={styles.card}>
+            <Text style={styles.sectionTitle}>Your coaching profile</Text>
+            <Text style={styles.infoLine}>Goal: {current.onboarding.primaryGoal.replace(/_/g, ' ')}</Text>
+            <Text style={styles.infoLine}>Experience: {current.onboarding.experienceLevel}</Text>
+            <Text style={styles.infoLine}>Workouts per week: {current.onboarding.workoutsPerWeek}</Text>
+            <Text style={styles.infoLine}>Diet: {current.onboarding.dietStyle.replace(/_/g, ' ')}</Text>
+            <Text style={styles.infoLine}>Training location: {current.onboarding.trainingLocation}</Text>
+          </View>
+        ) : null}
+
         <View style={styles.card}>
           <Text style={styles.label}>Username</Text>
-          <TextInput style={styles.input} value={username} onChangeText={setUsername} />
+          <TextInput style={styles.input} value={username} onChangeText={setUsername} placeholderTextColor={colors.muted} />
           <Text style={styles.label}>Age</Text>
-          <TextInput style={styles.input} value={age} onChangeText={setAge} keyboardType="numeric" />
+          <TextInput style={styles.input} value={age} onChangeText={setAge} keyboardType="numeric" placeholderTextColor={colors.muted} />
           <Text style={styles.label}>Weight (kg)</Text>
-          <TextInput style={styles.input} value={weightKg} onChangeText={setWeightKg} keyboardType="numeric" />
+          <TextInput style={styles.input} value={weightKg} onChangeText={setWeightKg} keyboardType="numeric" placeholderTextColor={colors.muted} />
           <Text style={styles.label}>Height (cm)</Text>
-          <TextInput style={styles.input} value={heightCm} onChangeText={setHeightCm} keyboardType="numeric" />
+          <TextInput style={styles.input} value={heightCm} onChangeText={setHeightCm} keyboardType="numeric" placeholderTextColor={colors.muted} />
 
           <Text style={styles.label}>Gender</Text>
           <View style={styles.pillRow}>
@@ -102,13 +137,6 @@ export const UserProfileScreen = () => {
             <Text style={styles.secondaryButtonText}>Log Out</Text>
           </Pressable>
         </View>
-
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Health metrics preview</Text>
-          <Text style={styles.metric}>BMR: {preview.bmr}</Text>
-          <Text style={styles.metric}>Daily calorie requirement: {preview.calories}</Text>
-          <Text style={styles.metric}>Estimated body fat: {preview.bodyFat}%</Text>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -128,24 +156,54 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     fontSize: 28,
   },
+  previewCard: {
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 24,
+    padding: spacing.lg,
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  previewStat: {
+    flex: 1,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: 18,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  previewLabel: {
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    fontSize: 11,
+  },
+  previewValue: {
+    color: colors.text,
+    fontWeight: '800',
+    fontSize: 20,
+    marginTop: 8,
+  },
   card: {
     backgroundColor: colors.card,
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: 20,
+    borderRadius: 22,
     padding: spacing.lg,
     gap: spacing.sm,
   },
   label: {
     color: colors.text,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   input: {
-    borderRadius: 14,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderStrong,
     padding: spacing.md,
-    backgroundColor: '#FBFCFD',
+    backgroundColor: colors.surfaceAlt,
+    color: colors.text,
   },
   pillRow: {
     flexDirection: 'row',
@@ -156,14 +214,17 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     paddingHorizontal: 14,
     paddingVertical: 10,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.surfaceAlt,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   pillActive: {
     backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   pillText: {
-    color: colors.primaryDark,
-    fontWeight: '600',
+    color: colors.textSoft,
+    fontWeight: '700',
     textTransform: 'capitalize',
   },
   pillTextActive: {
@@ -172,31 +233,32 @@ const styles = StyleSheet.create({
   button: {
     marginTop: spacing.md,
     backgroundColor: colors.primary,
-    borderRadius: 14,
+    borderRadius: 18,
     alignItems: 'center',
     padding: spacing.md,
   },
   buttonText: {
     color: '#FFF',
-    fontWeight: '700',
+    fontWeight: '800',
   },
   secondaryButton: {
-    borderRadius: 14,
+    borderRadius: 18,
     alignItems: 'center',
     padding: spacing.md,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.surfaceAlt,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   secondaryButtonText: {
-    color: colors.primaryDark,
-    fontWeight: '700',
+    color: colors.primarySoft,
+    fontWeight: '800',
   },
   sectionTitle: {
     color: colors.text,
-    fontWeight: '700',
     fontSize: 18,
+    fontWeight: '800',
   },
-  metric: {
-    color: colors.muted,
-    fontSize: 15,
+  infoLine: {
+    color: colors.textSoft,
   },
 });

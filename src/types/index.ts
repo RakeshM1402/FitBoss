@@ -1,6 +1,20 @@
 export type Gender = 'male' | 'female' | 'other';
 export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'athlete';
 export type QueueAction = 'upsert_food_log' | 'upsert_workout' | 'upsert_profile' | 'upsert_score';
+export type FitnessGoal = 'lose_weight' | 'maintain' | 'gain_muscle' | 'improve_endurance' | 'general_health';
+export type ExperienceLevel = 'beginner' | 'intermediate' | 'advanced';
+export type DietStyle = 'balanced' | 'high_protein' | 'vegetarian' | 'vegan' | 'keto' | 'other';
+export type DiscoverySource = 'instagram' | 'youtube' | 'friend' | 'trainer' | 'search' | 'other';
+
+export interface OnboardingAnswers {
+  primaryGoal: FitnessGoal;
+  experienceLevel: ExperienceLevel;
+  workoutsPerWeek: number;
+  dietStyle: DietStyle;
+  trainingLocation: string;
+  discoverySource: DiscoverySource;
+  motivation: string;
+}
 
 export interface UserProfile {
   id: string;
@@ -15,6 +29,7 @@ export interface UserProfile {
   bodyFatEstimate: number;
   streakCount: number;
   lastLoginDate?: string;
+  onboarding: OnboardingAnswers;
 }
 
 export interface FoodLog {
@@ -28,6 +43,7 @@ export interface FoodLog {
   fat: number;
   loggedAt: string;
   synced: boolean;
+  nutritionSource?: string;
 }
 
 export interface WorkoutLog {

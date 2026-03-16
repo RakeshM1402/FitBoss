@@ -16,6 +16,7 @@ export const DailyCaloriesScreen = () => {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Daily Calories</Text>
         <View style={styles.heroCard}>
+          <Text style={styles.heroTag}>Fuel balance</Text>
           <Text style={styles.heroValue}>{consumed}</Text>
           <Text style={styles.heroLabel}>calories consumed today</Text>
           <View style={styles.progressTrack}>
@@ -58,35 +59,45 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
   heroCard: {
-    backgroundColor: colors.primaryDark,
-    borderRadius: 24,
+    backgroundColor: colors.card,
+    borderRadius: 28,
+    borderColor: colors.border,
+    borderWidth: 1,
     padding: spacing.xl,
   },
+  heroTag: {
+    color: colors.primarySoft,
+    textTransform: 'uppercase',
+    letterSpacing: 1.1,
+    fontWeight: '700',
+    fontSize: 12,
+  },
   heroValue: {
-    color: '#FFF',
+    color: colors.text,
     fontSize: 40,
     fontWeight: '800',
+    marginTop: spacing.sm,
   },
   heroLabel: {
-    color: '#D5F5E3',
+    color: colors.textSoft,
     fontSize: 16,
     marginTop: 4,
   },
   progressTrack: {
     height: 12,
     borderRadius: 999,
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: colors.surfaceAlt,
     marginTop: spacing.lg,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
     borderRadius: 999,
-    backgroundColor: '#FFF',
+    backgroundColor: colors.primary,
   },
   goalText: {
     marginTop: spacing.sm,
-    color: '#D5F5E3',
+    color: colors.textSoft,
   },
   card: {
     backgroundColor: colors.card,
@@ -112,7 +123,7 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   rowValue: {
-    color: colors.primaryDark,
+    color: colors.primarySoft,
     fontWeight: '700',
   },
   emptyText: {

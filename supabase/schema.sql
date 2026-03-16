@@ -13,6 +13,13 @@ create table if not exists public.users (
   body_fat_estimate numeric not null,
   streak_count integer not null default 0,
   last_login_date date,
+  primary_goal text not null default 'general_health',
+  experience_level text not null default 'beginner',
+  workouts_per_week integer not null default 3,
+  diet_style text not null default 'balanced',
+  training_location text not null default 'Gym',
+  discovery_source text not null default 'search',
+  motivation text not null default 'Build sustainable fitness habits',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -26,6 +33,7 @@ create table if not exists public.food_logs (
   protein numeric not null,
   carbs numeric not null,
   fat numeric not null,
+  nutrition_source text,
   logged_at timestamptz not null,
   created_at timestamptz not null default now()
 );

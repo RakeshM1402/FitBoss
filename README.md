@@ -2,6 +2,13 @@
 
 Fit Boss is a cross-platform fitness tracker starter built with Expo React Native and Supabase. It includes Google sign-in, nutrition tracking with OpenFoodFacts, body metrics, workout timing, a capped fitness score system, leaderboard views, workout playlist launch shortcuts, and offline-first sync.
 
+## Download APK
+
+[![Download Latest APK](https://img.shields.io/badge/Download-Latest%20APK-1B8A5A?style=for-the-badge&logo=android&logoColor=white)](https://github.com/RakeshM1402/FitBoss/releases/latest)
+
+Download the newest Android build from the latest GitHub release:
+[https://github.com/RakeshM1402/FitBoss/releases/latest](https://github.com/RakeshM1402/FitBoss/releases/latest)
+
 ## Project structure
 
 ```text

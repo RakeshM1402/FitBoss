@@ -14,6 +14,13 @@ const serializeProfile = (profile: UserProfile) => ({
   body_fat_estimate: profile.bodyFatEstimate,
   streak_count: profile.streakCount,
   last_login_date: profile.lastLoginDate ?? null,
+  primary_goal: profile.onboarding.primaryGoal,
+  experience_level: profile.onboarding.experienceLevel,
+  workouts_per_week: profile.onboarding.workoutsPerWeek,
+  diet_style: profile.onboarding.dietStyle,
+  training_location: profile.onboarding.trainingLocation,
+  discovery_source: profile.onboarding.discoverySource,
+  motivation: profile.onboarding.motivation,
 });
 
 const serializeFoodLog = (item: FoodLog) => ({
@@ -26,6 +33,7 @@ const serializeFoodLog = (item: FoodLog) => ({
   carbs: item.carbs,
   fat: item.fat,
   logged_at: item.loggedAt,
+  nutrition_source: item.nutritionSource ?? null,
 });
 
 const serializeWorkout = (item: WorkoutLog) => ({

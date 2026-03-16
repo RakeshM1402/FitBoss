@@ -27,11 +27,26 @@ export const DashboardScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Welcome, {profile.username}</Text>
+        <View style={styles.heroCard}>
+          <Text style={styles.overline}>Daily command</Text>
+          <Text style={styles.title}>Welcome back, {profile.username}</Text>
           <Text style={styles.subtitle}>
-            {state.isOnline ? 'Online sync ready' : 'Offline mode active'} • {state.pendingSync.length} pending sync item(s)
+            {state.isOnline ? 'Cloud sync armed' : 'Offline mode active'} | {state.pendingSync.length} pending sync item(s)
           </Text>
+          <View style={styles.heroStats}>
+            <View style={styles.heroStat}>
+              <Text style={styles.heroLabel}>Calories</Text>
+              <Text style={styles.heroValue}>{caloriesConsumed}</Text>
+            </View>
+            <View style={styles.heroStat}>
+              <Text style={styles.heroLabel}>Score</Text>
+              <Text style={styles.heroValue}>{totalScore}</Text>
+            </View>
+            <View style={styles.heroStat}>
+              <Text style={styles.heroLabel}>Streak</Text>
+              <Text style={styles.heroValue}>{profile.streakCount}</Text>
+            </View>
+          </View>
         </View>
 
         <View style={styles.grid}>
@@ -64,17 +79,55 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     gap: spacing.md,
   },
-  header: {
+  heroCard: {
+    backgroundColor: colors.card,
+    borderRadius: 28,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.xl,
     gap: spacing.xs,
+  },
+  overline: {
+    color: colors.primarySoft,
+    textTransform: 'uppercase',
+    letterSpacing: 1.2,
+    fontWeight: '700',
+    fontSize: 12,
   },
   title: {
     color: colors.text,
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '800',
   },
   subtitle: {
-    color: colors.muted,
+    color: colors.textSoft,
     fontSize: 14,
+    lineHeight: 21,
+  },
+  heroStats: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginTop: spacing.md,
+  },
+  heroStat: {
+    flex: 1,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.md,
+  },
+  heroLabel: {
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    fontSize: 11,
+  },
+  heroValue: {
+    color: colors.text,
+    fontSize: 22,
+    fontWeight: '800',
+    marginTop: 8,
   },
   grid: {
     flexDirection: 'row',
@@ -89,11 +142,11 @@ const styles = StyleSheet.create({
   emptyTitle: {
     color: colors.text,
     fontSize: 28,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   emptyText: {
     marginTop: spacing.sm,
-    color: colors.muted,
+    color: colors.textSoft,
     fontSize: 16,
     lineHeight: 24,
   },

@@ -9,21 +9,37 @@ export const LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.hero}>
-        <Text style={styles.kicker}>Offline-first fitness tracking</Text>
+      <View style={styles.orbLarge} />
+      <View style={styles.orbSmall} />
+      <View style={styles.heroCard}>
+        <Text style={styles.kicker}>Gamified fitness command center</Text>
         <Text style={styles.title}>Fit Boss</Text>
         <Text style={styles.subtitle}>
-          Track meals, workouts, daily scores, and leaderboards from one shared React Native codebase.
+          A dark-mode fitness tracker that feels sharper, more competitive, and easier to come back to every single day.
         </Text>
+        <View style={styles.metricStrip}>
+          <View style={styles.metricPill}>
+            <Text style={styles.metricValue}>+50</Text>
+            <Text style={styles.metricLabel}>daily cap</Text>
+          </View>
+          <View style={styles.metricPill}>
+            <Text style={styles.metricValue}>7d</Text>
+            <Text style={styles.metricLabel}>score loop</Text>
+          </View>
+          <View style={styles.metricPill}>
+            <Text style={styles.metricValue}>1 app</Text>
+            <Text style={styles.metricLabel}>track all</Text>
+          </View>
+        </View>
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Start now</Text>
+        <Text style={styles.cardTitle}>Jump into Demo Mode</Text>
         <Text style={styles.cardText}>
-          Demo Mode is enabled for APK builds right now so the app stays stable while authentication is being finalized.
+          Explore the redesigned dashboard, workout mode, calorie system, and leaderboard flow instantly while sign-in is being polished.
         </Text>
         <Pressable style={styles.button} onPress={loginAsGuest}>
-          <Text style={styles.buttonText}>Continue in Demo Mode</Text>
+          <Text style={styles.buttonText}>Enter Fit Boss</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -36,31 +52,81 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     justifyContent: 'space-between',
     padding: spacing.xl,
+    overflow: 'hidden',
   },
-  hero: {
-    marginTop: 72,
+  orbLarge: {
+    position: 'absolute',
+    top: -80,
+    right: -60,
+    width: 220,
+    height: 220,
+    borderRadius: 110,
+    backgroundColor: 'rgba(59,130,246,0.22)',
+  },
+  orbSmall: {
+    position: 'absolute',
+    bottom: 180,
+    left: -30,
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: 'rgba(96,165,250,0.12)',
+  },
+  heroCard: {
+    marginTop: 52,
     gap: spacing.md,
+    backgroundColor: colors.overlay,
+    borderRadius: 32,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.xxl,
   },
   kicker: {
-    color: colors.primaryDark,
+    color: colors.primarySoft,
     fontWeight: '700',
-    fontSize: 14,
+    fontSize: 13,
     textTransform: 'uppercase',
-    letterSpacing: 1,
+    letterSpacing: 1.4,
   },
   title: {
     color: colors.text,
-    fontSize: 42,
+    fontSize: 46,
     fontWeight: '800',
   },
   subtitle: {
-    color: colors.muted,
+    color: colors.textSoft,
     fontSize: 17,
-    lineHeight: 24,
+    lineHeight: 26,
+  },
+  metricStrip: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginTop: spacing.sm,
+  },
+  metricPill: {
+    flex: 1,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.sm,
+  },
+  metricValue: {
+    color: colors.white,
+    fontSize: 18,
+    fontWeight: '800',
+  },
+  metricLabel: {
+    color: colors.muted,
+    fontSize: 11,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginTop: 4,
   },
   card: {
     backgroundColor: colors.card,
-    borderRadius: 24,
+    borderRadius: 28,
     padding: spacing.xl,
     borderWidth: 1,
     borderColor: colors.border,
@@ -69,18 +135,23 @@ const styles = StyleSheet.create({
   cardTitle: {
     color: colors.text,
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   cardText: {
-    color: colors.muted,
+    color: colors.textSoft,
     fontSize: 15,
     lineHeight: 22,
   },
   button: {
     backgroundColor: colors.primary,
-    borderRadius: 14,
+    borderRadius: 18,
     paddingVertical: spacing.md,
     alignItems: 'center',
+    shadowColor: colors.primary,
+    shadowOpacity: 0.35,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 10,
   },
   buttonText: {
     color: '#FFF',
